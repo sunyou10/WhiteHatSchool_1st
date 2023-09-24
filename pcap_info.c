@@ -70,11 +70,26 @@ void got_packet(unsigned char *args, const struct pcap_pkthdr *header, const uns
         struct ipheader *ip = (struct ipheader *) (packet + sizeof(struct ethheader));
         struct tcpheader *tcp = (struct tcpheader *) (packet + sizeof(struct ethheader)+sizeof(struct ipheader));
 
+        /* 송신MAC과 수신MAC 출력 */
+        printf("Ethernet Address(MAC)\n");
+        printf("        From: %02x:%02x:%02x:%02x:%02x:%02x\n",
+                   eth->ether_shost[0], eth->ether_shost[1], eth->ether_shost[2],
+                   eth->ether_shost[3], eth->ether_shost[4], eth->ether_shost[5]);
+        printf("        To: %02x:%02x:%02x:%02x:%02x:%02x\n",
+                   eth->ether_dhost[0], eth->ether_dhost[1], eth->ether_dhost[2],
+                   eth->ether_dhost[3], eth->ether_dhost[4], eth->ether_dhost[5]);
+        
         /* 송신IP와 수신IP 출력 */
+        printf("IP Address\n");
         printf("        From: %s\n", inet_ntoa(ip->iph_sourceip));
         printf("        To: %s\n", inet_ntoa(ip->iph_destip));
 
         printf("    Protocol: TCP\n");
+
+        /* TCP 헤더 출력 */
+        printf("TCP Port\n");
+        printf("        From: %u\n", ntohs(tcp->tcp_sport));
+        printf("        To: %u\n", ntohs(tcp->tcp_dport));
 
         /* 메시지 출력 */
         char payload[1500];
