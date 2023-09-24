@@ -83,7 +83,7 @@ void got_packet(unsigned char *args, const struct pcap_pkthdr *header, const uns
         memcpy(payload, packet + sizeof(struct ethheader) + sizeof(struct ipheader) + sizeof(struct tcpheader), payload_length);
 
         for(int i = 0; i < payload_length; i++) {
-            printf("%c", payload[i]);
+            printf("Message: %c", payload[i]);
             if((i + 1) % 16 == 0)
                 printf("\n");
         }
