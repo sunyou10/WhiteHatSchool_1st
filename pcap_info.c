@@ -1,3 +1,4 @@
+#include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <pcap.h>
@@ -97,8 +98,9 @@ void got_packet(unsigned char *args, const struct pcap_pkthdr *header, const uns
 
         memcpy(payload, packet + sizeof(struct ethheader) + sizeof(struct ipheader) + sizeof(struct tcpheader), payload_length);
 
+        printf("Message: ")
         for(int i = 0; i < payload_length; i++) {
-            printf("Message: %c", payload[i]);
+            printf("%c", payload[i]);
             if((i + 1) % 16 == 0)
                 printf("\n");
         }
